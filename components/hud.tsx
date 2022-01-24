@@ -12,6 +12,8 @@ import { styled } from "../stitches";
 import { blip, closePanel, openPanel, select } from "./sounds";
 import { Stack } from "./Stack";
 
+// Next.js doesn't like clientside code being invoked on the server
+// might try and patch use-control to prevent this.
 let useKeyDown = (...meh: any[]) => {};
 
 if (process.browser) {
@@ -37,11 +39,11 @@ export const Panel = styled("fieldset", {
 
   // ty josh https://www.joshwcomeau.com/css/designing-shadows/
   boxShadow: `
-    0 1px 1px hsl(0deg 0% 0% / 0.175),
-    0 2px 2px hsl(0deg 0% 0% / 0.175),
-    0 4px 4px hsl(0deg 0% 0% / 0.175),
-    0 8px 8px hsl(0deg 0% 0% / 0.175),
-    0 16px 16px hsl(0deg 0% 0% / 0.175)`,
+  0 1px 1px hsl(0deg 0% 0% / 0.175),
+  0 2px 2px hsl(0deg 0% 0% / 0.175),
+  0 4px 4px hsl(0deg 0% 0% / 0.175),
+  0 8px 8px hsl(0deg 0% 0% / 0.175),
+  0 16px 16px hsl(0deg 0% 0% / 0.175)`,
 
   "& + &": {
     marginTop: "$space$2",
@@ -85,18 +87,18 @@ const animatedPanelVariants = {
 
 export const AnimatedPanel = ({
   title,
-  chidlren,
-  expended = true,
+  children,
+  expanded = true,
   toggleable = true,
   actions,
 }: {
   title?: string;
   children?: ReactNode;
-  expended?: boolean;
+  expanded?: boolean;
   toggleable?: boolean;
   actions?: ReactNodeArray;
 }) => {
-  const [open, setOpen] = useState(expended);
+  const [open, setOpen] = useState(expanded);
 
   return (
     <motion.div variants={animatedPanelVariants}>
@@ -131,9 +133,9 @@ export const PanelLegend = styled("legend", {
   padding: "0px $1",
   textTransform: "uppercase",
   textShadow: `-1px -1px 0 #000,  
-      1px -1px 0 #000,
-      -1px 1px 0 #000,
-      1px 1px 0 #000`,
+    1px -1px 0 #000,
+    -1px 1px 0 #000,
+    1px 1px 0 #000`,
 });
 
 const flicker = keyframes({
@@ -191,9 +193,9 @@ export const PanelLegendExpandButton = styled(Button, {
   marginRight: "$1",
   border: "none",
   textShadow: `-1px -1px 0 #000,  
-    1px -1px 0 #000,
-    -1px 1px 0 #000,
-    1px 1px 0 #000`,
+  1px -1px 0 #000,
+  -1px 1px 0 #000,
+  1px 1px 0 #000`,
   "&:hover": {
     "&::before": {
       content: "",
